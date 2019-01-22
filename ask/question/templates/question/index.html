@@ -1,0 +1,61 @@
+{% include "question/base.html" %}
+{% load static %}
+{% block content %}
+{% include "question/nav_panel.html" %}
+    <!-- Begin page content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="row">
+                    <span class="headline">New Questions</span>
+                    <a class="nav-link" href="{% url 'hot' %}"><span class="text_style">Hot Questions</span></a>
+                </div>
+                {% for question in questions %}
+                <div class="row">
+                    <div class="card flex-md-row mb-4 shadow-sm h-md-250 size_blog">
+                        <table>
+                            <tr>
+                                <td>
+                                    <img class="mr-3" src="{% static "img/NoAvatar.png" %}" alt="" width="32" height="32" hspace="10" vspace="10">
+                                </td>
+                                <td>
+                                    <a class="nav-link" href="{% url 'question' question.id %}"><span class="question">{{question.title}}</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#"><img class="arr_button" src="{% static "img/arr_up.png" %}" width="10" height="10"></a><br>
+
+                                    <span class="arr_button">{{question.raiting}}</span><br>
+
+                                    <a href="#"><img class="arr_button" src="{% static "img/arr_down.png" %}" width="10" height="10"></a>
+                                </td>
+
+                                <td>
+
+                                    <p class="card-text mb-auto d-flex flex-column align-items-start" style="margin-right: 5px;">{{question.text}}</p>
+
+                                    <br>
+
+                                    <a href="{% url 'question' question.id %}"> <span class="top_name"> answer</span></a>
+
+                                    <span class="text_style" style="white-space: nowrap; margin-left: 6px"> Tags:</span>
+
+                                    {% for tag in question.tags.all %}
+                                        <a href="{% url 'tag' tag.title %}"> <span class="top_name"> {{tag.title}}</span></a>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+                {% include "question/paginator.html" %}
+            </div>
+            <div class="col-3">
+                {% include "question/right_tags.html" %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
